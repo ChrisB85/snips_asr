@@ -3,7 +3,7 @@ cd "${0%/*}"
 # Shell script to use Google Translator as Snips TTS
 # Install mpg123: sudo apt-get install mpg123
 
-./config.sh
+source ./config.sh
 
 # Edit /etc/snips.toml
 # Set "customtts" as snips-tts provider
