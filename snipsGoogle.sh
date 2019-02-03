@@ -21,11 +21,8 @@ text="$3"
 mkdir -pv "$cache"
 
 languageCode="$lang"-"$country"
-#echo $languageCode
 googleVoice="$languageCode"-"$voice"
-#echo $googleVoice
 text=${text//\'/\\\'}
-#echo $text
 md5string="$text""$lang"
 hash="$(echo -n "$md5string" | md5sum | sed 's/ .*$//')"
 
@@ -48,4 +45,5 @@ if [[ ! -f "$cachefile" ]]; then
     rm "$downloadFile.mp3"
 fi
 
+touch "$cachefile"
 cp "$cachefile" "$outfile"
