@@ -2,11 +2,9 @@
 cd "${0%/*}"
 # Shell script to use VoiceRSS as Snips TTS
 # Install mpg123: sudo apt-get install mpg123
-# Set your cache path
-cache="/usr/share/snips/tts_cache/"
 
-# API key
-apiKey="bbb1ba806a254ca5882a8f84b296b9c4"
+./config.sh
+
 # Edit /etc/snips.toml
 # Set "customtts" as snips-tts provider
 #
@@ -23,19 +21,13 @@ sampleRate="44khz_16bit_stereo"
 mkdir -pv "$cache"
 
 languageCode="$lang"-"$country"
-#echo $languageCode
 googleVoice="$languageCode"-"$voice"
-#echo $googleVoice
 text=${text//\'/\\\'}
-#echo $text
 md5string="$text""$googleVoice""$sampleRate"
 hash="$(echo -n "$md5string" | md5sum | sed 's/ .*$//')"
 
 cachefile="$cache""$hash".wav
-#echo $cachefile
 downloadFile="/tmp/""$hash"
-#echo "$downloadFile.mp3"
-#exit
 
 if [[ ! -f "$cachefile" ]]; then
     curl -H "Content-Type: application/x-www-form-urlencoded; charset=UTF-8" \

@@ -1,0 +1,9 @@
+# Create a copy of this file and save as config.sh
+
+# Set your cache path
+# Make sure that proper permissions are set
+cache="/usr/share/snips/tts_cache/"
+
+# VoiceRSS API key
+# To get one, register at http://www.voicerss.org
+apiKey=""
