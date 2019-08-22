@@ -1,3 +1,4 @@
+#!/bin/bash
 # Install mpg123: sudo apt-get install mpg123
 # Set your cache path
 cache="/usr/share/snips/tts_cache/"
@@ -25,13 +26,17 @@ md5string="$text""$lang"
 hash="$(echo -n "$md5string" | md5sum | sed 's/ .*$//')"
 
 cachefile="$cache$hash".wav
+
 downloadFile="$cache$hash".mp3
 
+echo "Text: $text"
+
 if [[ ! -f "$cachefile" ]]; then
-    if [ "$method" = "httpie" ]; then
-        http --download --output "$downloadFile" \
-        "https://translate.google.com/translate_tts" \
-        ie==UTF-8 \
+    echo "Saving sound file $downloadFile"
+    if [[ $method = "httpie" ]]; then
+        http --debug --download --output "$downloadFile" \
+        GET "https://translate.google.com/translate_tts" \
+        ie=="UTF-8" \
         client==tw-ob \
         q=="$text" \
         tl=="$lang" \
@@ -53,9 +58,12 @@ if [[ ! -f "$cachefile" ]]; then
     fi
 
     mpg123 --quiet --wav "$cachefile" "$downloadFile"
+    chmod 777 "$cachefile"
     rm "$downloadFile"
+else
+    echo "Sound file already in cache $downloadFile"
 fi
 
 touch "$cachefile"
-#echo "$cachefile" "$outfile"
 cp "$cachefile" "$outfile"
+
