@@ -3,8 +3,6 @@
 # Set your cache path
 cache="/usr/share/snips/tts_cache/"
 
-# API key
-apiKey="bbb1ba806a254ca5882a8f84b296b9c4"
 # Edit /etc/snips.toml
 # Set "customtts" as snips-tts provider
 #
@@ -21,7 +19,6 @@ mkdir -pv "$cache"
 
 languageCode="$lang"-"$country"
 googleVoice="$languageCode"-"$voice"
-text=${text//\'/\\\'}
 md5string="$text""$lang"
 hash="$(echo -n "$md5string" | md5sum | sed 's/ .*$//')"
 
@@ -45,6 +42,7 @@ if [[ ! -f "$cachefile" ]]; then
         textlen==1 \
         User-Agent:"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.125 Safari/537.36"
     else
+        text=${text//\'/\\\'}
         curl -G -v \
         -A "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.125 Safari/537.36" \
         --data-urlencode "ie=UTF-8" \
